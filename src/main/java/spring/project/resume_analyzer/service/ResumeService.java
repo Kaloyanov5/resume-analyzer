@@ -13,11 +13,23 @@ public class ResumeService {
     @Autowired
     private ResumeRepository resumeRepository;
 
+    @Autowired
+    private GeminiService geminiService;
+
+    @Autowired
+    private UtilService utilService;
+
     public ResponseEntity<?> analyzeResume(ResumeRequest resumeRequest) {
         MultipartFile resume = resumeRequest.getResume();
         if (resume.isEmpty())
             return ResponseEntity.badRequest().body("Please upload a valid resume file.");
         String email = resumeRequest.getEmail();
+
+        String fileContent = utilService.extractTextFromFile(resume);
+        if (fileContent == null)
+            return ResponseEntity.internalServerError().body("Error extracting text from file!");
+
+
 
         return ResponseEntity.ok("");
     }
