@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import spring.project.resume_analyzer.request.AnalyzationRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,8 +14,8 @@ import java.io.InputStream;
 @Service
 public class UtilService{
 
-//    @Autowired
-//    private JavaMailSender emailSender;
+    @Autowired
+    private JavaMailSender emailSender;
 
     public String extractTextFromFile(MultipartFile file) {
         try (InputStream inputStream = file.getInputStream()) {
@@ -24,7 +25,7 @@ public class UtilService{
         }
     }
 
-    public void sendResultsToEmail(String to, String subject, String text) {
+    public void sendResultsToEmail(String to, AnalyzationRequest analyzationRequest) {
         // empty for now
     }
 }
