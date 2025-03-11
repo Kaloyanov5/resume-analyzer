@@ -3,15 +3,15 @@ package spring.project.resume_analyzer.request;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ResumeRequest {
-    private MultipartFile resume;
+    private MultipartFile file;
     private String email;
 
-    public MultipartFile getResume() {
-        return resume;
+    public MultipartFile getFile() {
+        return file;
     }
 
-    public void setResume(MultipartFile resume) {
-        this.resume = resume;
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 
     public String getEmail() {
