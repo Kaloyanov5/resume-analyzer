@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import spring.project.resume_analyzer.entity.Resume;
 import spring.project.resume_analyzer.repository.ResumeRepository;
 import spring.project.resume_analyzer.request.AnalyzationRequest;
 import spring.project.resume_analyzer.request.ResumeRequest;
@@ -25,12 +26,12 @@ public class ResumeService {
 
     public ResponseEntity<?> analyzeResume(ResumeRequest resumeRequest) {
         try {
-            MultipartFile resume = resumeRequest.getResume();
-            if (resume.isEmpty())
+            MultipartFile file = resumeRequest.getFile();
+            if (file.isEmpty())
                 return ResponseEntity.badRequest().body("Please upload a valid resume file.");
             String email = resumeRequest.getEmail();
 
-            String fileContent = utilService.extractTextFromFile(resume);
+            String fileContent = utilService.extractTextFromFile(file);
             if (fileContent == null)
                 return ResponseEntity.internalServerError().body("Error extracting text from file!");
 
@@ -40,6 +41,16 @@ public class ResumeService {
 
             AnalyzationRequest responseObject = objectMapper.readValue(aiResponse.getBody().toString(), AnalyzationRequest.class);
             utilService.sendResultsToEmail(email, responseObject);
+
+            Resume resumeObject = new Resume(
+                    email,
+                    file.getOriginalFilename(),
+                    "pdf",
+                    fileContent,
+                    responseObject.getTotalScore(),
+                    responseObject.toString()
+            );
+            resumeRepository.save(resumeObject);
 
             return ResponseEntity.ok("Resume analyzed successfully!");
         } catch (JsonProcessingException e) {
