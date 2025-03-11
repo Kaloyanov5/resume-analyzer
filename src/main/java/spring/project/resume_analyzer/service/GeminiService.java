@@ -28,13 +28,7 @@ public class GeminiService {
 
     public ResponseEntity<?> geminiAnalyzeResume(String fileContent) {
         try {
-            if (conversationHistory.isEmpty())
-                conversationHistory.add(Map.of(
-                        "role", "user",
-                        "parts", List.of(Map.of("text", geminiInitialPrompt))
-                ));
-
-            StringBuilder prompt = new StringBuilder("Analyze this resume: " + fileContent);
+            StringBuilder prompt = new StringBuilder(geminiInitialPrompt + "Analyze this resume: " + fileContent);
 
             conversationHistory.add(Map.of(
                     "role", "user",
@@ -63,7 +57,9 @@ public class GeminiService {
                     .getParts()
                     .getFirst()
                     .getText()
-                    .trim();
+                    .trim()
+                    .replace("```json", "")
+                    .replace("```", "");
 
             if (responseText == null || responseText.isBlank())
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No response from AI!");
