@@ -15,7 +15,6 @@ import java.util.Map;
 @Service
 public class GeminiService {
     private final String URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=";
-    private final ObjectMapper objectMapper;
 
     @Value("${gemini.api.key}")
     private String API_KEY;
@@ -25,19 +24,14 @@ public class GeminiService {
 
     private final List<Map<String, Object>> conversationHistory = new ArrayList<>();
     private final RestTemplate restTemplate = new RestTemplate();
-
-    public GeminiService(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ResponseEntity<?> geminiAnalyzeResume(String fileContent) {
         try {
             if (conversationHistory.isEmpty())
                 conversationHistory.add(Map.of(
                         "role", "user",
-                        "parts", List.of(Map.of(
-                                "text", geminiInitialPrompt
-                                ))
+                        "parts", List.of(Map.of("text", geminiInitialPrompt))
                 ));
 
             StringBuilder prompt = new StringBuilder("Analyze this resume: " + fileContent);
