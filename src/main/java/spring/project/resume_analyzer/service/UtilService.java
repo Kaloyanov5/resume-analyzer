@@ -34,9 +34,10 @@ public class UtilService{
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
+            helper.setFrom("kaloyanovbojidar@gmail.com");
             helper.setTo(to);
             helper.setSubject("Your Resume Analysis is Ready!");
-            helper.setText(formatRequestToString(analyzationRequest));
+            helper.setText(formatRequestToString(analyzationRequest), true);
 
             emailSender.send(message);
         } catch (MessagingException e) {
@@ -46,6 +47,8 @@ public class UtilService{
 
     private String formatRequestToString(AnalyzationRequest analyzationRequest) {
         StringBuilder emailContent = new StringBuilder();
+        Integer[] categoryWiseStats = { 25, 20, 25, 15, 15 };
+        int currentIndex = 0;
 
         emailContent.append("<html><body>");
         emailContent.append("<p>Dear Candidate,</p>");
@@ -57,13 +60,18 @@ public class UtilService{
                 .append("/100</h2>");
 
         emailContent.append("<h3>📌 Category-wise Breakdown:</h3><ul>");
-        for (Map.Entry<String, Integer> entry : analyzationRequest.getCategoryScores().entrySet())
+        for (Map.Entry<String, Integer> entry : analyzationRequest.getCategoryScores().entrySet()) {
             emailContent
                     .append("<li><strong>")
                     .append(entry.getKey())
                     .append(":</strong> ")
                     .append(entry.getValue())
-                    .append("/100</li>");
+                    .append("/")
+                    .append(categoryWiseStats[currentIndex])
+                    .append("</li>");
+            currentIndex++;
+        }
+
         emailContent.append("</ul>");
 
         emailContent.append("<h3>✅ Strengths:</h3><ul>");
