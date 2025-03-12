@@ -14,7 +14,7 @@ public class ResumeController {
     private ResumeService resumeService;
 
     @PostMapping("/resume")
-    public ResponseEntity<?> analyzeResume(@RequestBody ResumeRequest resumeRequest) {
+    public ResponseEntity<?> analyzeResume(@ModelAttribute ResumeRequest resumeRequest) {
         return resumeService.analyzeResume(resumeRequest);
     }
 }
