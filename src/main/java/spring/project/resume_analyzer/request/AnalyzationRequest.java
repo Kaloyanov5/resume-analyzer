@@ -1,28 +1,37 @@
 package spring.project.resume_analyzer.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
 public class AnalyzationRequest {
-    private int total_score;
-    private Map<String, Integer> category_scores;
+    @JsonProperty("total_score")
+    private int totalScore;
+
+    @JsonProperty("category_scores")
+    private Map<String, Integer> categoryScores;
+
+    @JsonProperty("feedback")
     private Feedback feedback;
-    private List<String> job_match_suggestions;
+
+    @JsonProperty("job_match_suggestions")
+    private List<String> jobMatchSuggestions;
 
     public int getTotalScore() {
-        return total_score;
+        return totalScore;
     }
 
-    public void setTotalScore(int total_score) {
-        this.total_score = total_score;
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
     }
 
     public Map<String, Integer> getCategoryScores() {
-        return category_scores;
+        return categoryScores;
     }
 
-    public void setCategoryScores(Map<String, Integer> category_scores) {
-        this.category_scores = category_scores;
+    public void setCategoryScores(Map<String, Integer> categoryScores) {
+        this.categoryScores = categoryScores;
     }
 
     public Feedback getFeedback() {
@@ -34,16 +43,19 @@ public class AnalyzationRequest {
     }
 
     public List<String> getJobMatchSuggestions() {
-        return job_match_suggestions;
+        return jobMatchSuggestions;
     }
 
-    public void setJobMatchSuggestions(List<String> job_match_suggestions) {
-        this.job_match_suggestions = job_match_suggestions;
+    public void setJobMatchSuggestions(List<String> jobMatchSuggestions) {
+        this.jobMatchSuggestions = jobMatchSuggestions;
     }
 
     public static class Feedback {
+        @JsonProperty("strengths")
         private List<String> strengths;
-        private List<String> areas_for_improvement;
+
+        @JsonProperty("areas_for_improvement")
+        private List<String> areasForImprovement;
 
         public List<String> getStrengths() {
             return strengths;
@@ -54,11 +66,11 @@ public class AnalyzationRequest {
         }
 
         public List<String> getAreasForImprovement() {
-            return areas_for_improvement;
+            return areasForImprovement;
         }
 
-        public void setAreasForImprovement(List<String> areas_for_improvement) {
-            this.areas_for_improvement = areas_for_improvement;
+        public void setAreasForImprovement(List<String> areasForImprovement) {
+            this.areasForImprovement = areasForImprovement;
         }
     }
 }
