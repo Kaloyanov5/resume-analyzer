@@ -42,13 +42,15 @@ public class ResumeService {
             AnalyzationRequest responseObject = objectMapper.readValue(aiResponse.getBody().toString(), AnalyzationRequest.class);
             utilService.sendResultsToEmail(email, responseObject);
 
+            String[] fileNameType = file.getOriginalFilename().split("\\.");
+
             Resume resumeObject = new Resume(
                     email,
-                    file.getOriginalFilename(),
-                    "pdf",
+                    fileNameType[0],
+                    fileNameType[1],
                     fileContent,
                     responseObject.getTotalScore(),
-                    responseObject.toString()
+                    aiResponse.getBody().toString()
             );
             resumeRepository.save(resumeObject);
 
