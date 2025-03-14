@@ -59,7 +59,7 @@ gemini.initial.prompt=prompt(find in README.md)
 
 #### Gemini Inital Prompt (Set to `gemini.initial.prompt`) ####
 
-You can edit the prompt if you want different result or give Gemini different instructions on analyzating):
+You can edit the prompt if you want different result or give Gemini different instructions on analyzating:
 ```
 You are an AI resume evaluator.
 Your task is to analyze the given resume and assign a score from 0 to 100 based on the following criteria.
